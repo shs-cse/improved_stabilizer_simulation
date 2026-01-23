@@ -571,8 +571,7 @@ def _(mo):
     \vdots&\vdots\quad\\
     S_n=Z_n&\longrightarrow\\
     \end{array}}
-    \left(
-    \begin{array}{cccc:cccc:c}
+    \mat{cccc:cccc:c}{
     \color{red}1&0&\cdots&0 &0&0&\cdots&0 &0\\
     0&\color{red}1&\cdots&0 &0&0&\cdots&0 &0\\
     \vdots&\vdots&\ddots&\vdots &\vdots&\vdots&\ddots&\vdots &\vdots\\
@@ -581,25 +580,17 @@ def _(mo):
     0&0&\cdots&0 &\color{red}1&0&\cdots&0 &0\\
     0&0&\cdots&0 &0&\color{red}1&\cdots&0 &0\\
     \vdots&\vdots&\ddots&\vdots &\vdots&\vdots&\ddots&\vdots &\vdots\\
-    0&0&\cdots&0 &0&0&\cdots&\color{red}1 &0\\
-    \end{array}
-    \right)
+    0&0&\cdots&0 &0&0&\cdots&\color{red}1 &0\\}
     \equiv
     \def\arraystretch{1.5}
-    \left\lgroup
-    \begin{array}{c:c:c}
+    \mat{c:c:c}{
     I_{n\times n}&0_{n\times n}&0_{n\times 1}\\
     \hdashline
-    0_{n\times n}&I_{n\times n}&0_{n\times 1}
-    \end{array}
-    \right\rgroup
-    =\left\lgroup
-    \begin{array}{cc:c}
+    0_{n\times n}&I_{n\times n}&0_{n\times 1}}
+    =\mat{cc:c}{
     I&0&0\\
     % \hline
-    0&I&0
-    \end{array}
-    \right\rgroup$$
+    0&I&0}$$
     """)
     return
 
@@ -609,13 +600,13 @@ def _(mo):
     mo.md(r"""
     ## Pauli Commutativity with Matrix Multiplication
     - To check if two Pauli operators commute, we can check the wierd binary product. e.g.
-        - $X_1Y_2=\left\lgroup\begin{array}{cc:cc}1&1&0&1\end{array}\right\rgroup = \left\lgroup\begin{array}{c:c}\vv{x}&\vv{z}\end{array}\right\rgroup := P$
-        - $Y_1Z_2=\left\lgroup\begin{array}{cc:cc}1&0&1&1\end{array}\right\rgroup = \left\lgroup\begin{array}{c:c}\vv{x'}&\vv{z'}\end{array}\right\rgroup := Q$
-        - Also define, $P' = \left\lgroup\begin{array}{c:c}\vv{z}&\vv{x}\end{array}\right\rgroup = PL$ where $L$ is a linear operator
+        - $X_1Y_2=\mat{cc:cc}{1&1&0&1} = \mat{c:c}{\vv{x}&\vv{z}} := P$
+        - $Y_1Z_2=\mat{cc:cc}{1&0&1&1} = \mat{c:c}{\vv{x'}&\vv{z'}} := Q$
+        - Also define, $P' = \mat{c:c}{\vv{z}&\vv{x}} = PL$ where $L$ is a linear operator
         - Commutes iff, $~\vv x\cdot\vv{z'}+\vv{x'}\cdot\vv z=0$
         - This dot product can also be written as, $\vv x{\vv{z'}}^\top+\vv z{\vv{x'}}^\top$
           - or, equivalently, $~\vv{z'}{\vv x}^\top+\vv{x'}{\vv{z}}^\top$
-          - or, equivalently, $P' Q^\top = PLQ^\top=\left\lgroup\begin{array}{c:c}\vv{z}&\vv{x}\end{array}\right\rgroup \left\lgroup\begin{array}{c}{\vv{x'}}^\top\\\hdashline{\vv{z'}}^\top\end{array}\right\rgroup$
+          - or, equivalently, $P' Q^\top = PLQ^\top=\mat{c:c}{\vv{z}&\vv{x}} \mat{c}{{\vv{x'}}^\top\\\hdashline{\vv{z'}}^\top}$
     """)
     return
 
@@ -1501,7 +1492,7 @@ def _(mo):
 
         $$T^{(11)}=\mat{c:c}{I&0\\\hdashline 0&I}$$
 
-      - Note that phase information are also erased.
+      - Note that phase information erased in the previous steps remain untouched since either $z$ or $x$ is $0$.
     """)
     return
 
@@ -1543,7 +1534,7 @@ def _(mo):
 
     - Each of these $J$ matrices for each $CX$ gate can be seen as elementary row/column operation.
     - So, we can view the $CX$'s as performing gaussian elimination on the matrix $L$.
-    - Since $L$ is a $n\times n$ matrix, we need $O(n^2)$ such operations to reach RREF.
+    - Since $L$ is a $(n\times n)$ matrix, we need $O(n^2)$ such operations to reach RREF.
     - Hence, the $CX$ layers can be acheived by $O(n^2)$ gates.
     """)
     return
