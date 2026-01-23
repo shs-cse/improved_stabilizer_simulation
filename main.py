@@ -1249,7 +1249,8 @@ def _(mo):
           - That is the cost for determining where the Hadamard goes.
           - Not the cost of actual circuit complexity.
         - At the end of the day we only need at most a single Hadamard per qubit.
-          - So, the output hadamard circuit depth is 1 and hence, circuit complexity is $O(1)$.
+          - So, the output hadamard circuit depth is 1 and hence, circuit depth is $O(1)$.
+          - But for gate count, we need $O(n)$ gates for this step.
     """)
     return
 
