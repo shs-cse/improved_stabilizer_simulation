@@ -857,7 +857,7 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ## New Tableau After Applying $Z=S^2$
+    ## New Tableau After Applying $Z=S^{\small2}$
     - After applying $S$ once:
       - $\left\lgroup\begin{array}{c:c}x&z\end{array}\right\rgroup
     \longmapsto\left\lgroup\begin{array}{c:c}x&x\oplus z\end{array}\right\rgroup$
@@ -1262,7 +1262,7 @@ def _(mo):
     - **Lemma:** Any symmetric binary matrix $A$ can be written as $A=\Lambda+MM^\top$, where,
       - $\Lambda$ is a diagonal binary matrix.
       - $M$ is an invertible binary matrix.
-    - **Proof:** (Elegant and short proof strategy suggested by Gemini. Is it correct?)
+    - **Proof:** (elegant and short proof strategy suggested by Gemini. cross-check if correct?)
       - We will try to show that there exists an invertible operation $E$ such that, $E(A+\Lambda)E^T=I$.
       - We can do gaussian elimination by row addition from top to bottom (and column addition from left to right).
         - We always choose diagonal entries as pivot, and remove $1$ from lower rows.
@@ -1293,7 +1293,7 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     ## Decomposing Symmetric Binary Matrix (contd.)
-    - **Proof:** (paper)
+    - **Proof:** (paper's approach)
       - Let $M$ be a lower triangular matrix with all diagonal elements being 1.
       - $M=\mat{c}{1&0&0&\cdots&0\\ \star&1&0&\cdots&0\\ \star&\star&1&\cdots&0\\ \vdots&\vdots&\vdots&\ddots&0\\ \star&\star&\star&\cdots&1}
       \qquad\longrightarrow\qquad
@@ -1502,6 +1502,59 @@ def _(mo):
         $$T^{(11)}=\mat{c:c}{I&0\\\hdashline 0&I}$$
 
       - Note that phase information are also erased.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    # Circuit Complexity
+    - What's the gate complexity of this canonical form circuit? $\boxed{O(n^2/\log n)}$
+    - For the Hadamard layers, we at most need one $H$ per qubit since $H^2=I$.
+    - For the Phase gate layers, we at most need three $S$ per qubit since $S^4=I$.
+    - So, we need $O(n)$ single qubit gates.
+    - That means, the circuit complexity is dominated by the number of $CX$ gates.
+    - Since each $CX$ layer only consists of $CX$'s, on the tableau the transformation will be right multiplication by:
+
+    $$\mat{c:c}{L^{-1}&0\\\hdashline0&L^\top}$$
+    - Each of the $C_aX_b$ acts as follows (where $J=I+\ket a\!\!\bra b$ and so, $J^2=I$):
+
+    $$\mat{c:c}{J^{-1}&0\\\hdashline0&J^\top}\textrm{\qquad\qquad e.g.~~}J
+    % =\mat{}{1&
+    % \smash{\overbrace{0}^{\smash{\bullet\mathrlap{\rule[1pt]{1cm}{1pt}}}}}
+    % &0&
+    % \smash{\overbrace{0}^{\smash{\bigoplus\mathllap{\rule[1pt]{1cm}{1pt}}}}}\\
+    % 0&1&0&\textcolor{red}{1}
+    % \mathrlap{\scriptstyle~\bullet}\\
+    % 0&0&1&0\mathrlap{~\smash{\rule[-0.5cm]{1pt}{1cm}}}\\
+    % 0&0&0&1\mathrlap{\scriptstyle\bigoplus}}
+    =\mat{}{1&\smash{\overbrace0^{\smash{\bullet}\atop}}&0&\smash{\overbrace0^{\smash{\bigoplus}\atop}}\\
+    0&1&0&\color{red}1\\
+    0&0&1&0\\
+    0&0&0&1}
+    \begin{array}{lc}
+    \\
+    \}&\scriptsize\bullet\\
+    \\
+    \}&\scriptsize\bigoplus
+    \end{array}
+    $$
+
+    - Each of these $J$ matrices for each $CX$ gate can be seen as elementary row/column operation.
+    - So, we can view the $CX$'s as performing gaussian elimination on the matrix $L$.
+    - Since $L$ is a $n\times n$ matrix, we need $O(n^2)$ such operations to reach RREF.
+    - Hence, the $CX$ layers can be acheived by $O(n^2)$ gates.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Circuit Complexity (contd.)
+    - But information theoretic bound says it can be done in $O(n^2/\log n)$ gates. (Shor's counting argument)
+    - And there are schemes like this by Patel, Markov and Hayes [18].
     """)
     return
 
