@@ -12,7 +12,7 @@ __generated_with = "0.18.3"
 app = marimo.App(
     width="medium",
     app_title="Improved Simulation of Stabilizer Circuit",
-    layout_file="layouts/main.slides.json",
+    layout_file="layouts/main-copy.slides.json",
 )
 
 
@@ -618,17 +618,17 @@ def _(mo):
     - This makes checking multiple commutativity really easy. Just stack them. e.g.
       - Check commutativity between $\{X_1Y_2,~Y_1Z_2\}$ and $\{Y_1Z_2,~Z_1Z_2,~Y_1Y_2\}$
       - $\{X_1Y_2,~Y_1Z_2\}\to
-      \left\lgroup\begin{array}{cc:cc}1&1&0&1\\1&0&1&1\end{array}\right\rgroup =
-      \left\lgroup\begin{array}{c:c}\vv{x_1}&\vv{z_1}\\\vv{x_2}&\vv{z_2}\end{array}\right\rgroup =
-      \left\lgroup\begin{array}{c:c}A&B\end{array}\right\rgroup := P$
+      \mat{cc:cc}{1&1&0&1\\1&0&1&1} =
+      \mat{c:c}{\vv{x_1}&\vv{z_1}\\\vv{x_2}&\vv{z_2}} =
+      \mat{c:c}{A&B} := P$
       - $\{Y_1Z_2,~Z_1Z_2,~Y_1Y_2\}\to
-      \left\lgroup\begin{array}{cc:cc}1&0&1&1\\0&0&1&1\\1&1&1&1\end{array}\right\rgroup =
-      \left\lgroup\begin{array}{c:c}\vv{x'_1}&\vv{z'_1}\\\vv{x'_2}&\vv{z'_2}\\\vv{x'_3}&\vv{z'_3}\end{array}\right\rgroup =
-      \left\lgroup\begin{array}{c:c}A&B\end{array}\right\rgroup := Q$
+      \mat{cc:cc}{1&0&1&1\\0&0&1&1\\1&1&1&1} =
+      \mat{c:c}{\vv{x'_1}&\vv{z'_1}\\\vv{x'_2}&\vv{z'_2}\\\vv{x'_3}&\vv{z'_3}} =
+      \mat{c:c}{A&B} := Q$
       - Again, $P'Q^\top = PLQ^\top$ gives us all the commutativity information.
-        - $PLQ^\top = \left\lgroup\begin{array}{cc:cc}0&1&1&1\\1&1&1&0\end{array}\right\rgroup
-          \left\lgroup\begin{array}{ccc}1&0&1\\0&0&1\\\hdashline1&1&1\\1&1&1\end{array}\right\rgroup =
-          \left\lgroup\begin{array}{ccc}0&0&1\\0&1&1\end{array}\right\rgroup.$
+        - $PLQ^\top = \mat{cc:cc}{0&1&1&1\\1&1&1&0}
+          \mat{ccc}{1&0&1\\0&0&1\\\hdashline1&1&1\\1&1&1} =
+          \mat{ccc}{0&0&1\\0&1&1}.$
         - If the value in $r$-th row and $c$-th column is $0$, then
           - $r$-th element of $P$ and $c$-th element of $Q$ commutes.
           - Otherwise if 1, they anti-commute
@@ -642,32 +642,32 @@ def _(mo):
     mo.md(r"""
     # Tableau Condition
     - Every tableau can be written as binary matrices as before. Often times the last column for sign will be omitted.
-    - A tableau, $T=\left\lgroup\begin{matrix}A&B\\C&D\end{matrix}\right\rgroup$ must satisfy the following:
+    - A tableau, $T=\mat{}{A&B\\C&D}$ must satisfy the following:
     - Stabilizers must commute. So,
-      $\left\lgroup\begin{matrix}D&C\end{matrix}\right\rgroup
-      \left\lgroup\begin{matrix}C^\top\\D^\top\end{matrix}\right\rgroup =
+      $\mat{}{D&C}
+      \mat{}{C^\top\\D^\top} =
       DC^\top+CD^\top=0$
     - Destabilizers must also commute. So,
-      $\left\lgroup\begin{matrix}B&A\end{matrix}\right\rgroup
-      \left\lgroup\begin{matrix}A^\top\\B^\top\end{matrix}\right\rgroup =
+      $\mat{}{B&A}
+      \mat{}{A^\top\\B^\top} =
       BA^\top+AB^\top=0$
     - Stabilizers and destabilizers mostly commute, but anticommute at matching indices.
       - So,
-      $\left\lgroup\begin{matrix}B&A\end{matrix}\right\rgroup
-      \left\lgroup\begin{matrix}C^\top\\D^\top\end{matrix}\right\rgroup =
+      $\mat{}{B&A}
+      \mat{}{C^\top\\D^\top} =
       BC^\top+AD^\top=I$
       - Or, equivalently,
-      $\left\lgroup\begin{matrix}D&C\end{matrix}\right\rgroup
-      \left\lgroup\begin{matrix}A^\top\\B^\top\end{matrix}\right\rgroup =
+      $\mat{}{D&C}
+      \mat{}{A^\top\\B^\top} =
       DA^\top+CB^\top=I$
         - which is just transpose of previous equation
 
     - All these information can be written using one equation:
       - $TLT^\top =
-        \left\lgroup\begin{matrix}B&A\\D&C\end{matrix}\right\rgroup
-        \left\lgroup\begin{matrix}A^\top&C^\top\\B^\top&D^\top\end{matrix}\right\rgroup =
-        \left\lgroup\begin{matrix}BA^\top+AB^\top&BC^\top+AD^\top\\DA^\top+CB^\top&DC^\top+CD^\top\end{matrix}\right\rgroup =
-        \left\lgroup\begin{matrix}0&I\\I&0\end{matrix}\right\rgroup
+        \mat{}{B&A\\D&C}
+        \mat{}{A^\top&C^\top\\B^\top&D^\top} =
+        \mat{}{BA^\top+AB^\top&BC^\top+AD^\top\\DA^\top+CB^\top&DC^\top+CD^\top} =
+        \mat{}{0&I\\I&0}
         .$
     """)
     return
@@ -679,10 +679,10 @@ def _(mo):
     ## Important Consequences (Invariants)
     - The tableau matrix always has an inverse.
         - $TT^{-1} =
-        \left\lgroup\begin{matrix}A&B\\C&D\end{matrix}\right\rgroup
-        \left\lgroup\begin{matrix}D^\top&B^\top\\C^\top&A^\top\end{matrix}\right\rgroup =
-        \left\lgroup\begin{matrix}AD^\top+BC^\top&AB^\top+BA^\top\\CD^\top+DC^\top&CB^\top+DA^\top\end{matrix}\right\rgroup =
-        \left\lgroup\begin{matrix}I&0\\0&I\end{matrix}\right\rgroup =
+        \mat{}{A&B\\C&D}
+        \mat{}{D^\top&B^\top\\C^\top&A^\top} =
+        \mat{}{AD^\top+BC^\top&AB^\top+BA^\top\\CD^\top+DC^\top&CB^\top+DA^\top} =
+        \mat{}{I&0\\0&I} =
         I_{(2n\times2n)}$
     - So, $T$ must be a **full rank** matrix.
     - That means, any binary row vector can be written as linear combinations of rows.
@@ -735,7 +735,7 @@ def _(mo):
     - If applied hadamard, we get,
       -  $HXH^\dag=Z$ and $HZH^\dag=X$
       -  That means, if applied on a single qubit Pauli stabilizer (for simplicity),
-        - $P=(-1)^ri^{xz}X^xZ^z\to\left\lgroup\begin{array}{cc:c}x&z&r\end{array}\right\rgroup$
+        - $P=(-1)^ri^{xz}X^xZ^z\to\mat{cc:c}{x&z&r}$
         - If $R$ is a Pauli string  without phase where $R=$
                <br>$\begin{aligned} HPH^\dag&=(-1)^ri^{xz}HX^xZ^zH^\dag\\
               &=(-1)^ri^{xz}(HXH^\dag)^x(HZH^\dag)^z\\
@@ -743,12 +743,12 @@ def _(mo):
               &=(-1)^ri^{xz}(-1)^{xz}X^zZ^x\\
               &=(-1)^{r\oplus xz}i^{zx}X^zZ^x\\
               &=(-1)^{r\oplus xz}R
-              & \textrm{where}~R=i^{zx}X^zZ^x\to\left\lgroup\begin{array}{cc:c}z&x&0\end{array}\right\rgroup\\
+              & \textrm{where}~R=i^{zx}X^zZ^x\to\mat{cc:c}{z&x&0}\\
               &=Q
-              & \textrm{where}~Q=(-1)^{r\oplus xz}R\to\left\lgroup\begin{array}{cc:c}z&x&r\oplus xz\end{array}\right\rgroup\\
+              & \textrm{where}~Q=(-1)^{r\oplus xz}R\to\mat{cc:c}{z&x&r\oplus xz}\\
               \end{aligned}$
-        - In summary, $P=\left\lgroup\begin{array}{cc:c}x&z&r\end{array}\right\rgroup\longmapsto
-           \left\lgroup\begin{array}{cc:c}z&x&r\oplus xz\end{array}\right\rgroup=Q$
+        - In summary, $P=\mat{cc:c}{x&z&r}\longmapsto
+           \mat{cc:c}{z&x&r\oplus xz}=Q$
       - This means, applying $H$ on a tableau essentially swaps $X$ and $Z$ columns.
       - And flips $r$ column if $xz=1$. Meaning if the Pauli operation was $Y$.
     """)
@@ -763,10 +763,10 @@ def _(mo):
     - This tableau transformation is a linear transformation:
 
     $$T\longmapsto TL_H =
-    T\left\lgroup\begin{array}{c:c}I-\Pi_a&\Pi_a\\\hdashline\Pi_a&I-\Pi_a\end{array}\right\rgroup
-    T\left\lgroup\begin{array}{c:c}I\oplus\Pi_a&\Pi_a\\\hdashline\Pi_a&I\oplus\Pi_a\end{array}\right\rgroup$$
-    - In summary, $\left\lgroup\begin{array}{c:c}x&z\end{array}\right\rgroup
-    \longmapsto\left\lgroup\begin{array}{c:c}z&x\end{array}\right\rgroup$
+    T\mat{c:c}{I-\Pi_a&\Pi_a\\\hdashline\Pi_a&I-\Pi_a}
+    T\mat{c:c}{I\oplus\Pi_a&\Pi_a\\\hdashline\Pi_a&I\oplus\Pi_a}$$
+    - In summary, $\mat{c:c}{x&z}
+    \longmapsto\mat{c:c}{z&x}$
     and $r\longmapsto r\oplus xz$
 
     <center><img src="public/hadamard.drawio.svg"/></center>
@@ -795,12 +795,12 @@ def _(mo):
     \end{align*}$$
 
     - In summary, 
-      - $\left\lgroup\begin{array}{c:c}x&z\end{array}\right\rgroup
-    \longmapsto\left\lgroup\begin{array}{c:c}x&x\oplus z\end{array}\right\rgroup$
+      - $\mat{c:c}{x&z}
+    \longmapsto\mat{c:c}{x&x\oplus z}$
       - $r\longmapsto r\oplus xz$
 
     - This tableau transformation is a linear transformation: $T\longmapsto TL_S =
-    T\left\lgroup\begin{array}{c:c}I&\Pi_a\\\hdashline0&I\end{array}\right\rgroup$
+    T\mat{c:c}{I&\Pi_a\\\hdashline0&I}$
 
     """)
     _right = mo.image(src="public/phase.drawio.svg")
@@ -821,15 +821,15 @@ def _(mo):
     - We can do similar calculations to find $CX_{ab}P_aP_bCX_{ab}^\dag$ using above results.
 
     - In summary, 
-      - $\left\lgroup\begin{array}{cc:cc}x_a&x_b&z_a&z_b\end{array}\right\rgroup
-    \longmapsto\left\lgroup\begin{array}{cc:cc}x_a&x_a\oplus x_b&z_a\oplus z_b&z_b\\\end{array}\right\rgroup$
+      - $\mat{cc:cc}{x_a&x_b&z_a&z_b}
+    \longmapsto\mat{cc:cc}{x_a&x_a\oplus x_b&z_a\oplus z_b&z_b\\}$
       - $r\longmapsto r\oplus x_az_b(x_b\oplus z_a\oplus1)$
 
     - This tableau transformation is a linear transformation: 
 
     $$T\longmapsto TL_{CX} =
-    T\left\lgroup\begin{array}{c:c}I+\ket{a}\!\!\bra{b}&0\\\hdashline0&I+\ket{b}\!\!\bra{a}\end{array}\right\rgroup =
-    T\left\lgroup\begin{array}{c:c}J&0\\\hdashline0&J^\top\end{array}\right\rgroup
+    T\mat{c:c}{I+\ket{a}\!\!\bra{b}&0\\\hdashline0&I+\ket{b}\!\!\bra{a}} =
+    T\mat{c:c}{J&0\\\hdashline0&J^\top}
     \textrm{where}~J^2=I$$
 
     - Since $J^2=I\implies J=J^{-1}$, we could have also written, *(this version will seem handy later on)*
@@ -850,19 +850,19 @@ def _(mo):
     mo.md(r"""
     ## New Tableau After Applying $Z=S^{\small2}$
     - After applying $S$ once:
-      - $\left\lgroup\begin{array}{c:c}x&z\end{array}\right\rgroup
-    \longmapsto\left\lgroup\begin{array}{c:c}x&x\oplus z\end{array}\right\rgroup$
+      - $\mat{c:c}{x&z}
+    \longmapsto\mat{c:c}{x&x\oplus z}$
       - $r\longmapsto r\oplus xz$
         - or, $\quad r'=r\oplus xz$
     - After applying $S$ again:
-      - $\left\lgroup\begin{array}{c:c}x&x\oplus z\end{array}\right\rgroup
-    \longmapsto\left\lgroup\begin{array}{c:c}x&x\oplus x\oplus z\end{array}\right\rgroup
-    = \left\lgroup\begin{array}{c:c}x&z\end{array}\right\rgroup$
+      - $\mat{c:c}{x&x\oplus z}
+    \longmapsto\mat{c:c}{x&x\oplus x\oplus z}
+    = \mat{c:c}{x&z}$
       - $r''=r'\oplus x'z'=(r\oplus xz)\oplus (x(x\oplus z)) =r\oplus xz \oplus x^2\oplus xz=r\oplus x$
       - $r\oplus xz\longmapsto r\oplus x$
     - In summary,
-      - $\left\lgroup\begin{array}{c:c}x&z\end{array}\right\rgroup
-    \longmapsto\left\lgroup\begin{array}{c:c}x&z\end{array}\right\rgroup$
+      - $\mat{c:c}{x&z}
+    \longmapsto\mat{c:c}{x&z}$
       - $r\longmapsto r\oplus x$
     """)
     return
@@ -875,13 +875,13 @@ def _(mo):
     - After applying $HZH$:
 
     $$\begin{gather*}
-    \left\lgroup\begin{array}{c:c}x&z\end{array}\right\rgroup
+    \mat{c:c}{x&z}
     &\overset H\longmapsto
-    &\left\lgroup\begin{array}{c:c}z&x\end{array}\right\rgroup
+    &\mat{c:c}{z&x}
     &\overset Z\longmapsto
-    &\left\lgroup\begin{array}{c:c}z&x\end{array}\right\rgroup
+    &\mat{c:c}{z&x}
     &\overset H\longmapsto
-    &\left\lgroup\begin{array}{c:c}x&z\end{array}\right\rgroup\\
+    &\mat{c:c}{x&z}\\
     r
     &\overset H\longmapsto
     &r\oplus xz
@@ -893,8 +893,8 @@ def _(mo):
     \end{gather*}$$
 
     - In summary,
-      - $\left\lgroup\begin{array}{c:c}x&z\end{array}\right\rgroup
-      \longmapsto\left\lgroup\begin{array}{c:c}x&z\end{array}\right\rgroup$
+      - $\mat{c:c}{x&z}
+      \longmapsto\mat{c:c}{x&z}$
       - $r\longmapsto r\oplus z$
     """)
     return
@@ -1127,22 +1127,18 @@ def _(mo):
       - Since row additions only multiplies the stabilizers and doesn't change the state,
         - We can do row additions (Gaussian elimination) to make the submatrix as follows, where $\rank(A)=k:$
 
-        $$\left\lgroup\begin{array}{c:c}
-        A_{(k\times n)}&B_{(k\times n)}\\
-        0_{(n-k)\times n}&C_{(n-k)\times n}\end{array}
-        \right\rgroup_{\mathrlap{(n\times2n)}}$$
+        $$\mat{c:c}{A_{(k\times n)}&B_{(k\times n)}\\
+        0_{(n-k)\times n}&C_{(n-k)\times n}}_{\mathrlap{(n\times2n)}}$$
 
       - Since the tableau were full-rank, the $X$ submatrix must have rank $n$.
         - That means, $\rank(C)=(n-k).$ We swap qubits to make $C_2$ full rank, $\rank(C_2)=(n-k)$:
 
-        $$\left\lgroup\begin{array}{cc:cc}
+        $$\mat{cc:cc}{
         \smash{\overbrace{A_1}^k}
         &\smash{\overbrace{A_2}^{n-k}}
         &\smash{\overbrace{B_1}^k}
         &\smash{\overbrace{B_2}^{n-k}}\\
-        0&0&C_1&C_2
-        \end{array}
-        \right\rgroup
+        0&0&C_1&C_2}
         {\color{cy}
         \begin{array}{l}
         \}\scriptsize~k\\
@@ -1159,14 +1155,12 @@ def _(mo):
     - **Proof:** (contd.)
       - Next, we do Gaussian elimination on bottom $(n-k)$ rows to make $C_2\mapsto I$.
 
-        $$\left\lgroup\begin{array}{cc:cc}
+        $$\mat{cc:cc}{
         \smash{\overbrace{A_1}^k}
         &\smash{\overbrace{A_2}^{n-k}}
         &\smash{\overbrace{B_1}^k}
         &\smash{\overbrace{B_2}^{n-k}}\\
-        0&0&D&I
-        \end{array}
-        \right\rgroup
+        0&0&D&I}
         {\color{cy}
         \begin{array}{l}
         \}\scriptsize~k\\
@@ -1179,27 +1173,19 @@ def _(mo):
 
       - That means, the $X$ submatrix is,
 
-        $$\left\lgroup\begin{array}{cc}
+        $$\mat{cc}{
         A_1 & A_2\\
-        0 & 0
-        \end{array}
-        \right\rgroup
+        0 & 0}
         =
-        \left\lgroup\begin{array}{cc}
+        \mat{cc}{
         A_1 & A_1D^\top\\
-        0 & 0
-        \end{array}
-        \right\rgroup
+        0 & 0}
         =
-        \left\lgroup\begin{array}{cc}
+        \mat{cc}{
         A_1\\
-        0
-        \end{array}
-        \right\rgroup
-        \left\lgroup\begin{array}{cc}
-        I&D^\top
-        \end{array}
-        \right\rgroup$$
+        0}
+        \mat{cc}{
+        I&D^\top}$$
 
       - Since the $X$ submatrix has rank $k$, we must have,
 
@@ -1215,15 +1201,13 @@ def _(mo):
     - **Proof:** (contd.)
       - Next, we apply Hadamard on the last $(n-k)$ qubits. So the $X$ and $Z$ columns are swapped.
 
-        $$\left\lgroup\begin{array}{cc:cc}
+        $$\mat{cc:cc}{
         \smash{\overbrace{A_1}^k}
         &\smash{\overbrace{B_2}^{n-k}}
         &\smash{\overbrace{B_1}^k}
         &\smash{\overbrace{A_2}^{n-k}}
         \\
-        0&I&D&0
-        \end{array}
-        \right\rgroup
+        0&I&D&0}
         {\color{cy}
         \begin{array}{l}
         \}\scriptsize~k\\
@@ -1320,11 +1304,11 @@ def _(mo):
       - Since every unitary is invertible, we will have an equivalent unitary circuit, but in the canonical form.
     - $(1.~H)$ Ignoring phase, we apply $H$ to make the following $C$ submatrix full-rank (using lemma).
 
-        $$T^{(1)}=\left\lgroup\begin{array}{c:c}A&B\\\hdashline C& D\end{array}\right\rgroup_{2n\times2n}$$
+        $$T^{(1)}=\mat{c:c}{A&B\\\hdashline C& D}_{2n\times2n}$$
     - $(2.~CX)$ Ignoring phase, we apply $CX$ gates to perform gaussian elimination on $C$ submatrix.
       - We don't do row swapping/addition during Gaussian elim, since that may change the table to a non-equivalent circuit.
 
-        $$T^{(2)}=\left\lgroup\begin{array}{c:c}A'&B'\\\hdashline I& D'\end{array}\right\rgroup_{2n\times2n}$$
+        $$T^{(2)}=\mat{c:c}{A'&B'\\\hdashline I& D'}_{2n\times2n}$$
     """)
     return
 
