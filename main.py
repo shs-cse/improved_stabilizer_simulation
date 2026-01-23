@@ -12,7 +12,7 @@ __generated_with = "0.18.3"
 app = marimo.App(
     width="medium",
     app_title="Improved Simulation of Stabilizer Circuit",
-    layout_file="layouts/main-copy.slides.json",
+    layout_file="layouts/main.slides.json",
 )
 
 
