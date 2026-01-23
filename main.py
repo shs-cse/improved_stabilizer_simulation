@@ -1497,7 +1497,7 @@ def _(mo):
         $$T^{(11)}=T^{(10)}L_{CX}
         = \mat{c:c}{K^{-1}&0\\\hdashline 0& K^\top}\mat{c:c}{J^{-1}&0\\\hdashline0&J^\top}
         = \mat{c:c}{(JK)^{-1}&0\\\hdashline 0& (JK)^\top}$$
-      - If we take $J=K$, then, $JK=J^2=I$. That means,
+      - If we take $J=K^{-1}$, then, $JK=I$. That means,
 
         $$T^{(11)}=\mat{c:c}{I&0\\\hdashline 0&I}$$
 
