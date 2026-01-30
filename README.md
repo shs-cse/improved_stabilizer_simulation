@@ -14,6 +14,6 @@ This repo contains a self-contained slides on stabilizer simulation, mostly focu
     ```
 - For exporting the notebook (slides) as webpages, the following command was used.
     ```sh
-    marimo export html-wasm --mode run --no-show-code -o docs -f main.py --sandbox 
+    marimo export html-wasm --mode run --no-show-code -o docs -f main.py --sandbox
     ```
 - Then the `/docs` folder was hosted on github pages.
