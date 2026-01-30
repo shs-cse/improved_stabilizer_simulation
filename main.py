@@ -1130,7 +1130,7 @@ def _(mo):
         $$\mat{c:c}{A_{(k\times n)}&B_{(k\times n)}\\
         0_{(n-k)\times n}&C_{(n-k)\times n}}_{\mathrlap{(n\times2n)}}$$
 
-      - Since the tableau were full-rank, the stabilizer submatrix must have rank $n$ (otherwise dependent).
+      - Since the stabilizer generators are independent, the stabilizer submatrix must have rank $n$ (otherwise dependent).
         - That means, $\rank(C)=(n-k).$ We swap qubits to make $C_2$ full rank, $\rank(C_2)=(n-k)$:
 
         $$\mat{cc:cc}{
