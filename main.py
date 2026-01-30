@@ -762,9 +762,9 @@ def _(mo):
     - If we apply $H$ on the $a$-th qubit, this would only affect the $a$-th columns of $X$ and $Z$; and optionally affects phase.
     - This tableau transformation is a linear transformation:
 
-    $$T\longmapsto TL_H =
-    T\mat{c:c}{I-\Pi_a&\Pi_a\\\hdashline\Pi_a&I-\Pi_a}
-    T\mat{c:c}{I\oplus\Pi_a&\Pi_a\\\hdashline\Pi_a&I\oplus\Pi_a}$$
+    $$T\longmapsto TL_H
+    = T\mat{c:c}{I-\Pi_a&\Pi_a\\\hdashline\Pi_a&I-\Pi_a}
+    = T\mat{c:c}{I\oplus\Pi_a&\Pi_a\\\hdashline\Pi_a&I\oplus\Pi_a}$$
     - In summary, $\mat{c:c}{x&z}
     \longmapsto\mat{c:c}{z&x}$
     and $r\longmapsto r\oplus xz$
@@ -1130,7 +1130,7 @@ def _(mo):
         $$\mat{c:c}{A_{(k\times n)}&B_{(k\times n)}\\
         0_{(n-k)\times n}&C_{(n-k)\times n}}_{\mathrlap{(n\times2n)}}$$
 
-      - Since the tableau were full-rank, the $X$ submatrix must have rank $n$.
+      - Since the tableau were full-rank, the stabilizer submatrix must have rank $n$ (otherwise dependent).
         - That means, $\rank(C)=(n-k).$ We swap qubits to make $C_2$ full rank, $\rank(C_2)=(n-k)$:
 
         $$\mat{cc:cc}{
