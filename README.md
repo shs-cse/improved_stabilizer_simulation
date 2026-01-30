@@ -4,7 +4,7 @@ This repo contains a self-contained slides on stabilizer simulation, mostly focu
 - Scott Aaronson
 - Daniel Gottesman
 - https://arxiv.org/abs/quant-ph/0406196
-- Slide author's [annotated notes](Aaronson-Gottesman_stabilizer_simulation_0406196.pdf) over the paper
+- Slide author's [annotated notes](public/Aaronson-Gottesman_stabilizer_simulation_0406196.pdf) over the paper
 
 # Marimo Notebook
 - The slides were created using marimo notebook.

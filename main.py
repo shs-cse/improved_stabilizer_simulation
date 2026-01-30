@@ -1493,10 +1493,11 @@ def _(mo):
     - Since each $CX$ layer only consists of $CX$'s, on the tableau the transformation will be right multiplication by:
 
     $$\mat{c:c}{L^{-1}&0\\\hdashline0&L^\top}$$
-    - Each of the $C_aX_b$ acts as follows (where $J=I+\ket a\!\!\bra b$ and so, $J^2=I$):
+    - Each of the $C_aX_b$ acts as follows (where $J_{ab}=I+\ket a\!\!\bra b$ and so, $J_{ab}^2=I$):
 
-    $$\mat{c:c}{J^{-1}&0\\\hdashline0&J^\top}\textrm{\qquad\qquad e.g.~~}J
-    % =\mat{}{1&
+    $$\mat{c:c}{J_{ab}^{-1}&0\\\hdashline0&J_{ab}^\top}\textrm{\qquad\qquad e.g.~~}
+    J_{24} =
+    % \mat{}{1&
     % \smash{\overbrace{0}^{\smash{\bullet\mathrlap{\rule[1pt]{1cm}{1pt}}}}}
     % &0&
     % \smash{\overbrace{0}^{\smash{\bigoplus\mathllap{\rule[1pt]{1cm}{1pt}}}}}\\
@@ -1504,7 +1505,7 @@ def _(mo):
     % \mathrlap{\scriptstyle~\bullet}\\
     % 0&0&1&0\mathrlap{~\smash{\rule[-0.5cm]{1pt}{1cm}}}\\
     % 0&0&0&1\mathrlap{\scriptstyle\bigoplus}}
-    =\mat{}{1&\smash{\overbrace0^{\smash{\bullet}\atop}}&0&\smash{\overbrace0^{\smash{\bigoplus}\atop}}\\
+    \mat{}{1&\smash{\overbrace0^{\smash{\bullet}\atop}}&0&\smash{\overbrace0^{\smash{\bigoplus}\atop}}\\
     0&1&0&\color{red}1\\
     0&0&1&0\\
     0&0&0&1}
@@ -1516,7 +1517,7 @@ def _(mo):
     \end{array}
     $$
 
-    - Each of these $J$ matrices for each $CX$ gate can be seen as elementary row/column operation.
+    - Each of these $J_{ab}$ matrices for each $CX$ gate can be seen as elementary row/column operation.
     - So, we can view the $CX$'s as performing gaussian elimination on the matrix $L$.
     - Since $L$ is a $(n\times n)$ matrix, we need $O(n^2)$ such operations to reach RREF.
     - Hence, the $CX$ layers can be acheived by $O(n^2)$ gates.
@@ -1528,9 +1529,64 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     ## Circuit Complexity (contd.)
-    - But information theoretic bound says it can be done in $O(n^2/\log n)$ gates. (Shor's counting argument)
-    - And there are schemes like this by Patel, Markov and Hayes [18].
+    - Shannon's counting argument says the lower bound is $\Omega(n^2/\log n)$ gates.
+    - **Proof:**
+      - Since any such $L$ representing any $n$-qubit $CX$ circuit must be invertible ($L^{-1}$ exists),
+        - And we can make any row addition operation using a single $CX$ gate,
+        - We can always use RREF to reach $I$. (Hence, the argument in last slide)
+        - But this implies that we can make any rank $n$ matrix (so, invertible) by applying $CX$'s on $I$.
+          - Because we can always reverse the row ops (or, the $CX$'s) on $I$ to build the matrix $L$.
+        - So, set of all $CX$ cicuits is not only a subset of $n\times n$ invertible binary matrix $\textrm{GL}_n(\Z_2)$, but actually equal to it.
+      - So, $|\Set{U_{CX's}}|=|\textrm{GL}_n(\Z_2)|$. Let's count the number of invertible $n\times n$ binary matrices.
+        - Since $L$ have rank $n$, any non-trivial sum of rows must be non-zero.
+        - For the 1st row, we have $2^n-1$ choices. $-1$ for excluding an all-zero row.
+        - For the 2nd row, we have $2^n-2$ choices. (excluded $0$ and $r_1$)
+        - For the 3rd row, we have $2^n-4$ choices. (excluded $0, r_1, r_2$ and $r_1+r_2$)
+        - Contuning like this, for the $n$-th row, we have $2^n-2^{n-1}$ choices.
+        - So, $\displaystyle|\textrm{GL}_n(\Z_2)| = \prod_{k=1}^{n}(2^n-2^{n-k})$
     """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Circuit Complexity (contd.)
+    - **Proof:** (contd.)
+      - How many $CX$ gates do we need to make all possible $CX$ circuits?
+        - Let $d$ be the maximum number of $CX$ gates needed for this.
+        - In an $n$-qubit circuit, we can place a $CX$ gate in $n(n-1)$ possible ways.
+        - with $\leq d$ gates we can make $[n(n-1)+1]^d$ circuits.
+          - $+1$ to account for not placing any gates (for $<d$ gates)
+        - If this needs to cover all possible $CX$ circuits, then,
+
+            $$(n^2-n+1)^d\geq \prod_{k=1}^{n}(2^n-2^{n-k})$$
+        - But since $(2^n-2^{n-k})\geq2^{n-1}$ for all $k=1\cdots n,$ then,
+
+            $$\begin{align*}
+            &(n^2-n+1)^d\geq\prod_k2^{n-1}=2^{n(n-1)}\\
+            \implies& d\cdot\log_2(n^2-n+1)\geq n(n-1)\\
+            \implies& d\geq\frac{n^2-n}{\log_2(n^2-n+1)}=O\left(\frac{n^2}{\log n}\right)\\
+            \therefore~& d=\Omega\left(\frac{n^2}{\log n}\right)
+            \end{align*}$$
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(rf"""
+    ## Circuit Complexity (contd.)
+    - But is there any scheme that reaches this lower bound of $\Omega(n^2/\log n)$?
+      - Yes. Shown by Patel, Markov and Hayes [18].
+    - Patel et al.'s $O(n^2/\log n)$ scheme:
+    """)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.pdf(src="public/Aaronson-Gottesman_stabilizer_simulation_0406196.pdf#view=FitH&page=23")
     return
 
 
